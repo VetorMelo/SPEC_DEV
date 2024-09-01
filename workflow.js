@@ -15,25 +15,57 @@ document.getElementById("documentForm").addEventListener("submit", function(even
         statusMessageElement.style.display = "block";
     }
 
-    // Simulação de armazenamento de documento e fluxo de trabalho
-    let documentStatus = "Anexado";
-    updateStatusMessage(docName, documentStatus);
+    // Armazenar o documento no localStorage
+    function saveDocumentToLocalStorage(document) {
+        let documents = JSON.parse(localStorage.getItem('documents')) || [];
+        documents.push(document);
+        localStorage.setItem('documents', JSON.stringify(documents));
+    }
+
+    // Adicionar o documento ao localStorage
+    const newDocument = {
+        docName,
+        docNumber,
+        authorEmail,
+        checkerEmail,
+        approverEmail,
+        docFileName: docFile.name,
+        status: "Anexado"
+    };
+
+    saveDocumentToLocalStorage(newDocument);
+    updateStatusMessage(docName, newDocument.status);
 
     // Simulação de notificações por email
-    alert(`Documento "${docName}" cadastrado. Status: ${documentStatus}`);
+    alert(`Documento "${docName}" cadastrado. Status: ${newDocument.status}`);
 
     // Fluxo de verificação e aprovação
     setTimeout(() => {
-        documentStatus = "Checado";
-        alert(`Documento "${docName}" verificado. Status: ${documentStatus}`);
-        // Notificar checador por email
-        updateStatusMessage(docName, documentStatus);
+        newDocument.status = "Checado";
+        alert(`Documento "${docName}" verificado. Status: ${newDocument.status}`);
+        updateStatusMessage(docName, newDocument.status);
+        saveDocumentToLocalStorage(newDocument);
     }, 3000);
 
     setTimeout(() => {
-        documentStatus = "Aprovado";
-        alert(`Documento "${docName}" aprovado. Status: ${documentStatus}`);
-        // Notificar aprovador por email
-        updateStatusMessage(docName, documentStatus);
+        newDocument.status = "Aprovado";
+        alert(`Documento "${docName}" aprovado. Status: ${newDocument.status}`);
+        updateStatusMessage(docName, newDocument.status);
+        saveDocumentToLocalStorage(newDocument);
     }, 6000);
 });
+
+// Carregar documentos armazenados ao recarregar a página
+function loadDocuments() {
+    const documents = JSON.parse(localStorage.getItem('documents')) || [];
+    const documentListElement = document.getElementById("documentList");
+
+    documents.forEach(document => {
+        const listItem = document.createElement("li");
+        listItem.textContent = `Documento: ${document.docName}, Status: ${document.status}`;
+        documentListElement.appendChild(listItem);
+    });
+}
+
+// Chamada para carregar documentos quando a página é carregada
+document.addEventListener("DOMContentLoaded", loadDocuments);

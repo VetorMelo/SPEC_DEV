@@ -1,4 +1,3 @@
-// workflow.js
 document.getElementById("documentForm").addEventListener("submit", function(event) {
     event.preventDefault();
 
@@ -11,22 +10,4 @@ document.getElementById("documentForm").addEventListener("submit", function(even
 
     // Simulação de armazenamento de documento e fluxo de trabalho
     let documentStatus = "Anexado";
-    document.getElementById("statusMessage").innerText = `Documento "${docName}" cadastrado. Status: ${documentStatus}`;
-    document.getElementById("statusMessage").style.display = "block";
-
-    // Simulação de notificações por email
-    alert(`Documento "${docName}" cadastrado. Status: ${documentStatus}`);
-
-    // Fluxo de verificação e aprovação
-    setTimeout(() => {
-        documentStatus = "Checado";
-        alert(`Documento "${docName}" verificado. Status: ${documentStatus}`);
-        // Notificar checador por email
-    }, 3000);
-
-    setTimeout(() => {
-        documentStatus = "Aprovado";
-        alert(`Documento "${docName}" aprovado. Status: ${documentStatus}`);
-        // Notificar aprovador por email
-    }, 6000);
-});
+    document.getElementById("statusMessage").innerText = `Documento "${docName}" cadastrado. Status: ${document

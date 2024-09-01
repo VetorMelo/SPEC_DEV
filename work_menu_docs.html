@@ -5,34 +5,26 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Documentos</title>
-    <link rel="stylesheet" href="./workflow.css">
+    <link rel="stylesheet" href="./work_menu_docs.css">
 </head>
 <body>
-    <h1>Documentos Disponíveis</h1>
-    <ul id="documentList"></ul>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <!-- Conteúdo do navbar aqui -->
+    </nav>
 
-    <script>
-        // Função para carregar documentos armazenados no servidor
-        function loadDocuments() {
-            fetch('http://localhost:3000/documents')
-                .then(response => response.json())
-                .then(files => {
-                    const documentListElement = document.getElementById("documentList");
-                    files.forEach(file => {
-                        const listItem = document.createElement("li");
-                        const link = document.createElement("a");
-                        link.href = `http://localhost:3000/download/${file}`;
-                        link.textContent = file;
-                        listItem.appendChild(link);
-                        documentListElement.appendChild(listItem);
-                    });
-                })
-                .catch(error => {
-                    console.error('Erro ao carregar documentos:', error);
-                });
-        }
+    <!-- Menu lateral -->
+    <aside class="sidebar">
+        <!-- Conteúdo do menu lateral aqui -->
+    </aside>
 
-        document.addEventListener("DOMContentLoaded", loadDocuments);
-    </script>
+    <div class="container">
+        <h1>Documentos Disponíveis</h1>
+        <ul class="document-list" id="documentList">
+            <!-- Os itens de documento serão inseridos aqui pelo JavaScript -->
+        </ul>
+    </div>
+
+    <script src="./work_menu_docs.js"></script>
 </body>
 </html>

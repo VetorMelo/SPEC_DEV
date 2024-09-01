@@ -1,30 +1,35 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Documentos</title>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Upload de Arquivos</title>
     <link rel="stylesheet" href="./work_menu_docs.css">
 </head>
+
 <body>
-    <!-- Navbar -->
-    <nav class="navbar">
-        <!-- Conteúdo do navbar aqui -->
-    </nav>
+    <header id="title">
+        <h1>Gerenciador de Arquivos</h1>
+    </header>
 
-    <!-- Menu lateral -->
-    <aside class="sidebar">
-        <!-- Conteúdo do menu lateral aqui -->
-    </aside>
-
-    <div class="container">
-        <h1>Documentos Disponíveis</h1>
-        <ul class="document-list" id="documentList">
-            <!-- Os itens de documento serão inseridos aqui pelo JavaScript -->
-        </ul>
+    <div id="uploadSection">
+        <input type="file" id="fileInput" multiple>
+        <button id="uploadButton" class="success">Upload</button>
     </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Arquivo</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody id="fileList"></tbody>
+    </table>
 
     <script src="./work_menu_docs.js"></script>
 </body>
+
 </html>

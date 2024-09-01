@@ -1,77 +1,69 @@
-// Função para carregar documentos armazenados no servidor
-function loadDocuments() {
-    fetch('http://localhost:3000/documents')
-        .then(response => response.json())
-        .then(files => {
-            const documentListElement = document.getElementById("documentList");
-            files.forEach(file => {
-                const listItem = document.createElement("li");
-                listItem.classList.add("document-item");
+"use strict";
+document.addEventListener("DOMContentLoaded", () => {
+    const fileInput = document.querySelector("#fileInput");
+    const uploadButton = document.querySelector("#uploadButton");
+    const fileListElement = document.querySelector("#fileList");
 
-                const link = document.createElement("a");
-                link.href = `http://localhost:3000/download/${file}`;
-                link.textContent = file;
-                listItem.appendChild(link);
+    function renderFileList() {
+        const files = getFiles();
+        fileListElement.innerHTML = "";
 
-                // Botão de status
-                const statusButton = document.createElement('button');
-                statusButton.classList.add('status-button');
-                statusButton.textContent = 'Status';
-                statusButton.onclick = () => toggleStatus(file, statusButton);
-                listItem.appendChild(statusButton);
+        files.forEach(file => {
+            const row = document.createElement("tr");
 
-                // Botão de exclusão
-                const deleteButton = document.createElement("button");
-                deleteButton.classList.add("delete-button");
-                deleteButton.textContent = "X";
-                deleteButton.onclick = () => confirmDeletion(file, listItem);
-                listItem.appendChild(deleteButton);
+            row.innerHTML = `
+                <td>${file.name}</td>
+                <td>
+                    <button class="delete" data-name="${file.name}">Excluir</button>
+                </td>
+            `;
 
-                documentListElement.appendChild(listItem);
-            });
-        })
-        .catch(error => {
-            console.error('Erro ao carregar documentos:', error);
+            fileListElement.appendChild(row);
         });
-}
-
-// Função para confirmar exclusão
-function confirmDeletion(file, listItem) {
-    const confirmation = confirm(`Você realmente deseja excluir o documento "${file}" permanentemente?`);
-    if (confirmation) {
-        // Lógica para remover o arquivo do servidor
-        fetch(`http://localhost:3000/delete/${encodeURIComponent(file)}`, { method: 'DELETE' })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    listItem.remove();
-                    alert(`O documento "${file}" foi excluído com sucesso.`);
-                } else {
-                    alert('Erro ao excluir o documento.');
-                }
-            })
-            .catch(error => {
-                console.error('Erro ao excluir o documento:', error);
-                alert('Erro ao excluir o documento.');
-            });
     }
-}
 
-// Função para alternar o status
-function toggleStatus(file, button) {
-    const newStatus = prompt('Defina o novo status: Checado, Aprovado ou Reprovado', 'Checado');
-    if (newStatus === 'Checado' || newStatus === 'Aprovado' || newStatus === 'Reprovado') {
-        button.textContent = newStatus;
-        button.className = `status-button ${newStatus.toLowerCase()}`;
-        // Lógica para atualizar o status no servidor, se necessário
-        fetch(`http://localhost:3000/update-status/${encodeURIComponent(file)}`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ status: newStatus })
-        }).catch(error => console.error('Erro ao atualizar o status:', error));
-    } else {
-        alert('Status inválido. Por favor, escolha entre Checado, Aprovado ou Reprovado.');
+    function getFiles() {
+        return JSON.parse(localStorage.getItem("files") || "[]");
     }
-}
 
-document.addEventListener("DOMContentLoaded", loadDocuments);
+    function addFile(file) {
+        const files = getFiles();
+        files.push(file);
+        localStorage.setItem("files", JSON.stringify(files));
+    }
+
+    function deleteFile(fileName) {
+        let files = getFiles();
+        // Filtra os arquivos, removendo apenas o que corresponde ao nome especificado
+        files = files.filter(file => file.name !== fileName);
+        localStorage.setItem("files", JSON.stringify(files));
+        renderFileList(); // Atualiza a lista na interface
+    }
+
+    uploadButton.addEventListener("click", () => {
+        const files = Array.from(fileInput.files);
+        if (files.length === 0) {
+            alert("Por favor, selecione pelo menos um arquivo.");
+            return;
+        }
+
+        files.forEach(file => {
+            addFile({ name: file.name });
+        });
+
+        fileInput.value = ""; // Limpa o campo de arquivo após o upload
+        renderFileList();
+    });
+
+    fileListElement.addEventListener("click", (e) => {
+        if (e.target.classList.contains("delete")) {
+            const fileName = e.target.getAttribute("data-name");
+            const confirmation = confirm(`Você realmente deseja excluir o arquivo "${fileName}" permanentemente?`);
+            if (confirmation) {
+                deleteFile(fileName); // Chama a função de exclusão com o nome do arquivo correto
+            }
+        }
+    });
+
+    renderFileList(); // Inicializa a lista de arquivos ao carregar a página
+});

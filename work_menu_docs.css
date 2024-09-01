@@ -1,91 +1,80 @@
-/* Reset básico */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f9;
-    color: #333;
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-}
-
-.navbar {
-    background-color: #333;
-    color: white;
-    padding: 15px;
+#title {
     text-align: center;
+    font-family: Nunito;
+    text-shadow: rgba(87, 87, 87, 0.725) 5px 4px 10px;
+    margin-bottom: 1rem;
 }
 
-.sidebar {
-    position: absolute;
-    top: 60px; /* altura do navbar */
-    left: 0;
-    width: 200px;
-    background-color: #222;
-    color: white;
-    padding: 15px;
-    height: calc(100% - 60px); /* altura restante */
-}
-
-.container {
-    margin-left: 220px; /* largura da sidebar */
-    padding: 20px;
-}
-
-h1 {
-    text-align: center;
-    margin-bottom: 20px;
-    font-size: 1.8em;
-    color: #2462d6;
-}
-
-.document-list {
-    list-style: none;
-    padding: 0;
-}
-
-.document-item {
-    background-color: #e9ecef;
-    margin-bottom: 10px;
-    padding: 15px;
-    border-radius: 5px;
+#uploadSection {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin: 1rem;
+    background-color: #174a9e;
+    padding: 1rem;
+    border-radius: 5px;
 }
 
-.status-button {
-    margin-left: 10px;
-    padding: 5px 10px;
-    background-color: #007bff;
+#fileInput {
+    margin-right: 10px;
+}
+
+.success {
+    background-color: #4CAF50;
     color: white;
     border: none;
-    border-radius: 5px;
+    padding: 0.6rem 1rem;
     cursor: pointer;
-    font-size: 0.9em;
+    border-radius: 5px;
 }
 
-.status-button:hover {
-    background-color: #0056b3;
+.success:hover {
+    background-color: #45a049;
 }
 
-.delete-button {
-    margin-left: 10px;
-    padding: 5px 10px;
-    background-color: #ff4d4d;
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+}
+
+th, td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.delete {
+    background-color: #e74c3c;
     color: white;
     border: none;
-    border-radius: 5px;
+    padding: 0.4rem 0.6rem;
     cursor: pointer;
-    font-size: 0.9em;
+    border-radius: 5px;
 }
 
-.delete-button:hover {
-    background-color: #e60000;
+.delete:hover {
+    background-color: #c0392b;
+}
+
+@media (max-width: 768px) {
+    body {
+        width: 90%;
+        margin: 1rem auto;
+    }
+
+    #uploadSection {
+        flex-direction: column;
+    }
+
+    #fileInput, .success {
+        width: 100%;
+        margin-bottom: 0.5rem;
+    }
 }

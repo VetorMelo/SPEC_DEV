@@ -13,6 +13,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
             row.innerHTML = `
                 <td>${file.name}</td>
+                <td><input type="text" class="doc-number" placeholder="Número do Documento"></td>
+                <td><input type="email" class="author-email" placeholder="Email do Autor"></td>
+                <td><input type="email" class="checker-email" placeholder="Email do Checador"></td>
+                <td><input type="email" class="approver-email" placeholder="Email do Aprovador"></td>
+                <td>
+                    <select class="status-select">
+                        <option value="analise">Análise</option>
+                        <option value="aprovado">Aprovado</option>
+                        <option value="reprovado">Reprovado</option>
+                    </select>
+                </td>
                 <td>
                     <button class="delete" data-name="${file.name}">Excluir</button>
                 </td>
@@ -62,6 +73,10 @@ document.addEventListener("DOMContentLoaded", () => {
             if (confirmation) {
                 deleteFile(fileName); // Chama a função de exclusão com o nome do arquivo correto
             }
+        } else if (e.target.classList.contains("status-button")) {
+            const row = e.target.closest('tr');
+            const statusSelect = row.querySelector('.status-select');
+            alert(`Status atual: ${statusSelect.value}`);
         }
     });
 

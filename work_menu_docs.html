@@ -5,24 +5,68 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Upload de Arquivos</title>
+    <title>Documentos</title>
     <link rel="stylesheet" href="./work_menu_docs.css">
+    <style>
+        /* Estilos básicos para a tabela */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+        th {
+            background-color: #f4f4f4;
+            position: relative;
+        }
+        /* Estilo para o dropdown no cabeçalho */
+        .header-select {
+            width: 100%;
+            border: none;
+            background-color: transparent;
+            padding: 5px;
+            box-sizing: border-box; /* Faz o padding não exceder o tamanho da célula */
+        }
+        /* Estilo para os campos de entrada na tabela */
+        .file-info input {
+            width: 100%;
+            box-sizing: border-box;
+        }
+        .status-select, .delete {
+            width: 100%;
+            box-sizing: border-box;
+        }
+    </style>
 </head>
 
 <body>
     <header id="title">
-        <h1>Gerenciador de Arquivos</h1>
+        <h1>Cadastrar Documento</h1>
     </header>
 
     <div id="uploadSection">
         <input type="file" id="fileInput" multiple>
-        <button id="uploadButton" class="success">Upload</button>
+        <button id="uploadButton" class="success">Anexar</button>
     </div>
 
     <table>
         <thead>
             <tr>
                 <th>Arquivo</th>
+                <th>Número do Documento:</th>
+                <th>Email do Autor:</th>
+                <th>Email do Checador:</th>
+                <th>Email do Aprovador:</th>
+                <th>
+                    Status
+                    <select class="header-select">
+                        <option value="analise">Análise</option>
+                        <option value="aprovado">Aprovado</option>
+                        <option value="reprovado">Reprovado</option>
+                    </select>
+                </th>
                 <th>Ações</th>
             </tr>
         </thead>

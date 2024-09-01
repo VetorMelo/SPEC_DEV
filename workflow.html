@@ -7,7 +7,7 @@
 </head>
 <body>
     <h2>Upload de Documento</h2>
-    <form id="uploadForm" enctype="multipart/form-data">
+    <form id="uploadForm" method="POST" enctype="multipart/form-data" action="/upload">
         <label for="docFile">Escolha o arquivo para enviar:</label>
         <input type="file" id="docFile" name="docFile" required>
         <button type="submit">Enviar Documento</button>

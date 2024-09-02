@@ -6,6 +6,7 @@ body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+    background-color: #f4f4f9; /* Cor de fundo mais clara */
 }
 
 .navbar {
@@ -20,6 +21,7 @@ body {
     text-align: center;
     padding: 14px 20px;
     text-decoration: none;
+    font-size: 16px; /* Tamanho da fonte mais consistente */
 }
 
 .navbar a:hover {
@@ -41,12 +43,46 @@ body {
 form {
     display: flex;
     flex-direction: column;
-    width: 300px;
+    width: 100%;
+    max-width: 400px; /* Largura máxima para a form */
     margin: 0 auto;
+    background-color: white; /* Cor de fundo para o formulário */
+    padding: 20px;
+    border-radius: 8px; /* Bordas arredondadas */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave para profundidade */
 }
 
-form label, form input, form button {
-    margin-bottom: 10px;
+form label {
+    font-size: 1rem; /* Tamanho da fonte dos labels */
+    margin-bottom: 5px;
+    color: #333; /* Cor dos labels */
+}
+
+form input, form button {
+    font-size: 1rem; /* Tamanho da fonte dos inputs e buttons */
+    padding: 10px;
+    border: none;
+    border-bottom: 2px solid #ddd; /* Linha inferior para os campos */
+    margin-bottom: 20px;
+    background-color: transparent; /* Fundo transparente para campos */
+}
+
+form input:focus, form button:focus {
+    border-bottom-color: #2462d6; /* Cor da linha inferior quando em foco */
+    outline: none;
+}
+
+form button {
+    background-color: #2462d6;
+    color: white;
+    cursor: pointer;
+    border-radius: 4px;
+    padding: 10px;
+    font-size: 1rem;
+}
+
+form button:hover {
+    background-color: #1e4b9c; /* Cor mais escura no hover */
 }
 
 footer {
@@ -57,8 +93,11 @@ footer {
     position: fixed;
     width: 100%;
     bottom: 0;
+    font-size: 14px; /* Tamanho da fonte do footer */
 }
 
 #errorMessage {
-    color: red; display: none;
+    color: red;
+    display: none;
+    margin-bottom: 10px;
 }

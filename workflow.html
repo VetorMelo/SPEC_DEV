@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,6 +8,7 @@
     <title>Sistema de Documentos</title>
     <link rel="stylesheet" href="./workflow.css">
 </head>
+
 <body>
     <!-- Navbar -->
     <nav>
@@ -31,36 +33,23 @@
             </ul>
         </aside>
 
-        <!-- Formulário de Cadastro de Documento -->
-        <div class="document-container">
-            <h2>Cadastrar Documento</h2>
-            <form id="documentForm">
-                <label for="docName">Nome do Documento:</label>
-                <input type="text" id="docName" name="docName" required>
-                
-                <label for="docNumber">Número do Documento:</label>
-                <input type="text" id="docNumber" name="docNumber" required>
+        <div id="">
 
-                <label for="authorEmail">Email do Autor:</label>
-                <input type="email" id="authorEmail" name="authorEmail" required>
+            <h3>Documentos</h3>
+            <p>Para acessar os documentos desejados, utilize o menu localizado na lateral da página. O menu está organizado por categorias, facilitando a busca pelos arquivos. Clique na categoria correspondente para visualizar os documentos disponíveis e selecione o arquivo que você deseja acessar.</p>
 
-                <label for="checkerEmail">Email do Checador:</label>
-                <input type="email" id="checkerEmail" name="checkerEmail" required>
+            <h3>Status</h3>
+            <p>Para consultar o status dos seus itens ou processos, utilize o menu localizado na lateral da página. Navegue até a seção "Status" e clique para visualizar as informações atualizadas. O menu está organizado para facilitar a localização rápida do status desejado.</p>
 
-                <label for="approverEmail">Email do Aprovador:</label>
-                <input type="email" id="approverEmail" name="approverEmail" required>
+            <h3>Configurações</h3>
+            <p>Para ajustar suas configurações, utilize o menu localizado na lateral da página. Selecione a opção "Configurações" para acessar e modificar as preferências desejadas. O menu está organizado de forma intuitiva para facilitar a navegação e a personalização.</p>
 
-                <label for="docFile">Anexar Documento:</label>
-                <input type="file" id="docFile" name="docFile" required>
-
-                <button type="submit">Cadastrar Documento</button>
-            </form>
-            <p id="statusMessage" style="color: green; display: none;">Documento cadastrado com sucesso.</p>
+            <h3>Ajuda</h3>
+            <p>Para obter assistência ou encontrar informações úteis, acesse a seção de ajuda através do menu localizado na lateral da página. Clique em "Ajuda" para acessar tutoriais, FAQs e opções de suporte. O menu é projetado para facilitar o acesso às informações necessárias.</p>
         </div>
-    </div>
 
     <script>
-        document.getElementById("documentForm").addEventListener("submit", function(event) {
+        document.getElementById("documentForm").addEventListener("submit", function (event) {
             event.preventDefault();
 
             const formData = new FormData(this);
@@ -69,15 +58,15 @@
                 method: 'POST',
                 body: formData
             })
-            .then(response => response.json())
-            .then(data => {
-                document.getElementById("statusMessage").innerText = data.message;
-                document.getElementById("statusMessage").style.display = "block";
-            })
-            .catch(error => {
-                console.error('Erro ao cadastrar documento:', error);
-                alert('Erro ao cadastrar documento.');
-            });
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById("statusMessage").innerText = data.message;
+                    document.getElementById("statusMessage").style.display = "block";
+                })
+                .catch(error => {
+                    console.error('Erro ao cadastrar documento:', error);
+                    alert('Erro ao cadastrar documento.');
+                });
         });
     </script>
 </body>

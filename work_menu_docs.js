@@ -8,11 +8,12 @@ document.addEventListener("DOMContentLoaded", () => {
         const files = getFiles();
         fileListElement.innerHTML = "";
 
-        files.forEach(file => {
+        files.forEach(fileData => {
+            const fileURL = URL.createObjectURL(fileData.file);
             const row = document.createElement("tr");
 
             row.innerHTML = `
-                <td>${file.name}</td>
+                <td>${fileData.name}</td>
                 <td><input type="text" class="doc-number" placeholder="Número do Documento"></td>
                 <td><input type="email" class="author-email" placeholder="Email do Autor"></td>
                 <td><input type="email" class="checker-email" placeholder="Email do Checador"></td>
@@ -25,7 +26,10 @@ document.addEventListener("DOMContentLoaded", () => {
                     </select>
                 </td>
                 <td>
-                    <button class="delete" data-name="${file.name}">Excluir</button>
+                    <button class="delete" data-name="${fileData.name}">Excluir</button>
+                </td>
+                <td>
+                    <a href="${fileURL}" download="${fileData.name}" class="download">Baixar</a>
                 </td>
             `;
 
@@ -34,20 +38,33 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function getFiles() {
-        return JSON.parse(localStorage.getItem("files") || "[]");
+        const filesData = JSON.parse(localStorage.getItem("files") || "[]");
+        return filesData.map(fileData => {
+            return {
+                name: fileData.name,
+                file: new File([fileData.content], fileData.name, { type: fileData.type })
+            };
+        });
     }
 
     function addFile(file) {
         const files = getFiles();
         files.push(file);
-        localStorage.setItem("files", JSON.stringify(files));
+        localStorage.setItem("files", JSON.stringify(files.map(f => ({
+            name: f.name,
+            content: f.file, // Aqui é onde precisamos corrigir
+            type: f.file.type
+        }))));
     }
 
     function deleteFile(fileName) {
         let files = getFiles();
-        // Filtra os arquivos, removendo apenas o que corresponde ao nome especificado
         files = files.filter(file => file.name !== fileName);
-        localStorage.setItem("files", JSON.stringify(files));
+        localStorage.setItem("files", JSON.stringify(files.map(f => ({
+            name: f.name,
+            content: f.file, // Aqui também precisamos corrigir
+            type: f.file.type
+        }))));
         renderFileList(); // Atualiza a lista na interface
     }
 
@@ -59,7 +76,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         files.forEach(file => {
-            addFile({ name: file.name });
+            addFile({ name: file.name, file: file });
         });
 
         fileInput.value = ""; // Limpa o campo de arquivo após o upload
@@ -71,12 +88,8 @@ document.addEventListener("DOMContentLoaded", () => {
             const fileName = e.target.getAttribute("data-name");
             const confirmation = confirm(`Você realmente deseja excluir o arquivo "${fileName}" permanentemente?`);
             if (confirmation) {
-                deleteFile(fileName); // Chama a função de exclusão com o nome do arquivo correto
+                deleteFile(fileName);
             }
-        } else if (e.target.classList.contains("status-button")) {
-            const row = e.target.closest('tr');
-            const statusSelect = row.querySelector('.status-select');
-            alert(`Status atual: ${statusSelect.value}`);
         }
     });
 

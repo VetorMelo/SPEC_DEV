@@ -14,12 +14,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
             row.innerHTML = `
                 <td>${fileData.name}</td>
-                <td><input type="text" class="doc-number" placeholder="Número do Documento"></td>
-                <td><input type="email" class="author-email" placeholder="Email do Autor"></td>
-                <td><input type="email" class="checker-email" placeholder="Email do Checador"></td>
-                <td><input type="email" class="approver-email" placeholder="Email do Aprovador"></td>
+                <td><input type="text"  id="doc-info" placeholder="Número do Documento"></td>
+                <td><input type="email" id="doc-info" placeholder="Email do Autor"></td>
+                <td><input type="email" id="doc-info" placeholder="Email do Checador"></td>
+                <td><input type="email" id="doc-info" placeholder="Email do Aprovador"></td>
                 <td>
-                    <select class="status-select">
+                    <select id="doc-info">
                         <option value="analise">Análise</option>
                         <option value="aprovado">Aprovado</option>
                         <option value="reprovado">Reprovado</option>
@@ -52,7 +52,7 @@ document.addEventListener("DOMContentLoaded", () => {
         files.push(file);
         localStorage.setItem("files", JSON.stringify(files.map(f => ({
             name: f.name,
-            content: f.file, // Aqui é onde precisamos corrigir
+            content: f.file, 
             type: f.file.type
         }))));
     }
@@ -62,7 +62,7 @@ document.addEventListener("DOMContentLoaded", () => {
         files = files.filter(file => file.name !== fileName);
         localStorage.setItem("files", JSON.stringify(files.map(f => ({
             name: f.name,
-            content: f.file, // Aqui também precisamos corrigir
+            content: f.file, 
             type: f.file.type
         }))));
         renderFileList(); // Atualiza a lista na interface

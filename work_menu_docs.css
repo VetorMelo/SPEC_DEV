@@ -30,7 +30,7 @@ body {
 .navbar a:hover {
     background-color: #ddd;
     color: black;
-    border-radius: 2px 2px 40px;
+    border-radius: 5px;
 }
 
 #title {
@@ -55,10 +55,11 @@ body {
     margin-right: 30px;
     font-family: nunito;
     color: red;
+    
 }
 
 .success {
-    background-color: #4CAF50;
+    background-color: #07af10;
     color: white;
     border: none;
     padding: 0.6rem 1rem;
@@ -67,7 +68,7 @@ body {
 }
 
 .success:hover {
-    background-color: #45a049;
+    background-color: #045f09;
 }
 
 table {
@@ -98,6 +99,31 @@ th, td {
 #title {
     font-family: Nunito;
     margin-top: 2rem;
+}
+
+.download {
+    text-decoration: none;
+    font-family: nunito;
+    color: #ddd;
+    background-color: #07af10;
+    padding: 3px 10px;
+    border-radius: 5px;
+}
+
+.download:hover {
+    background-color: #045f09;
+}
+
+.btn-docs {
+    font-family: nunito;
+    background-color: rgb(216, 213, 213);
+}
+
+#doc-info {
+    padding: 0.4rem 0.6rem;
+    border-radius: 5px;
+    background-color: rgb(216, 213, 213);
+    font-family: nunito;
 }
 
 /* Estilos básicos para a tabela */

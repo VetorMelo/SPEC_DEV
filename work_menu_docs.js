@@ -3,26 +3,32 @@ document.addEventListener("DOMContentLoaded", () => {
     const fileInput = document.querySelector("#fileInput");
     const uploadButton = document.querySelector("#uploadButton");
     const fileListElement = document.querySelector("#fileList");
+    const statusFilter = document.querySelector(".header-select");
 
-    function renderFileList() {
+    function renderFileList(statusFilterValue = '') {
         const files = getFiles();
         fileListElement.innerHTML = "";
 
         files.forEach(fileData => {
+            // Filtra com base no status se for especificado
+            if (statusFilterValue && fileData.status !== statusFilterValue) {
+                return; // Não renderiza a linha se o status não corresponder ao filtro
+            }
+
             const fileURL = URL.createObjectURL(fileData.file);
             const row = document.createElement("tr");
 
             row.innerHTML = `
                 <td>${fileData.name}</td>
-                <td><input type="text"  id="doc-info" placeholder="Número do Documento"></td>
+                <td><input type="text" id="doc-info" placeholder="Número do Documento"></td>
                 <td><input type="email" id="doc-info" placeholder="Email do Autor"></td>
                 <td><input type="email" id="doc-info" placeholder="Email do Checador"></td>
                 <td><input type="email" id="doc-info" placeholder="Email do Aprovador"></td>
                 <td>
-                    <select id="doc-info">
-                        <option value="analise">Análise</option>
-                        <option value="aprovado">Aprovado</option>
-                        <option value="reprovado">Reprovado</option>
+                    <select id="doc-info" data-status="${fileData.status}">
+                        <option value="analise" ${fileData.status === 'analise' ? 'selected' : ''}>Análise</option>
+                        <option value="aprovado" ${fileData.status === 'aprovado' ? 'selected' : ''}>Aprovado</option>
+                        <option value="reprovado" ${fileData.status === 'reprovado' ? 'selected' : ''}>Reprovado</option>
                     </select>
                 </td>
                 <td>
@@ -42,7 +48,8 @@ document.addEventListener("DOMContentLoaded", () => {
         return filesData.map(fileData => {
             return {
                 name: fileData.name,
-                file: new File([fileData.content], fileData.name, { type: fileData.type })
+                file: new File([fileData.content], fileData.name, { type: fileData.type }),
+                status: fileData.status || 'analise' // Adiciona status se não existir
             };
         });
     }
@@ -52,8 +59,9 @@ document.addEventListener("DOMContentLoaded", () => {
         files.push(file);
         localStorage.setItem("files", JSON.stringify(files.map(f => ({
             name: f.name,
-            content: f.file, 
-            type: f.file.type
+            content: f.file,
+            type: f.file.type,
+            status: f.status // Adiciona status ao armazenamento
         }))));
     }
 
@@ -62,10 +70,11 @@ document.addEventListener("DOMContentLoaded", () => {
         files = files.filter(file => file.name !== fileName);
         localStorage.setItem("files", JSON.stringify(files.map(f => ({
             name: f.name,
-            content: f.file, 
-            type: f.file.type
+            content: f.file,
+            type: f.file.type,
+            status: f.status // Adiciona status ao armazenamento
         }))));
-        renderFileList(); // Atualiza a lista na interface
+        renderFileList(statusFilter.value); // Atualiza a lista na interface
     }
 
     uploadButton.addEventListener("click", () => {
@@ -76,11 +85,11 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         files.forEach(file => {
-            addFile({ name: file.name, file: file });
+            addFile({ name: file.name, file: file, status: 'analise' }); // Define um status padrão para arquivos novos
         });
 
         fileInput.value = ""; // Limpa o campo de arquivo após o upload
-        renderFileList();
+        renderFileList(statusFilter.value); // Renderiza a lista com base no filtro atual
     });
 
     fileListElement.addEventListener("click", (e) => {
@@ -91,6 +100,10 @@ document.addEventListener("DOMContentLoaded", () => {
                 deleteFile(fileName);
             }
         }
+    });
+
+    statusFilter.addEventListener("change", () => {
+        renderFileList(statusFilter.value); // Renderiza a lista com base no filtro selecionado
     });
 
     renderFileList(); // Inicializa a lista de arquivos ao carregar a página
